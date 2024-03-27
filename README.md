@@ -26,14 +26,20 @@
    
 ## Wireframes
 >
-  - https://www.figma.com/file/xkZ1OrHqYF2tlfMzKi8KRr/Chat-Board-Remake-Wireframe?type=whiteboard&node-id=0-1&t=nRSJq09N8tji1HyQ-0
+  - [wireframe](https://www.figma.com/file/xkZ1OrHqYF2tlfMzKi8KRr/Chat-Board-Remake-Wireframe?type=whiteboard&node-id=0-1&t=nRSJq09N8tji1HyQ-0)
+  - <img width="3944" alt="Chat-Board-Remake-Wireframe" src="https://github.com/Taisei-Yamaguchi/Chat-Board-Remake/assets/119865966/6e52548e-1d7f-48db-8be1-1e769e75d485">
+
+
+## ERD
+>
+  - [erd](https://app.diagrams.net/index.html#G14UM1JdXT2Utk39zA5tue4OApDgfYXSJ8#%7B%22pageId%22%3A%22psvvZqwR41q0-1H5zmYz%22%7D)
+  - ![Chat-Board-Remake drawio](https://github.com/Taisei-Yamaguchi/Chat-Board-Remake/assets/119865966/72751c7d-9cfb-4d7f-b2d5-d351fd80f205)
+
+
 ## User Flow Chart
 >
   - 
 
-## ERD
->
-  - 
 
 ## Tech Choices
 >
