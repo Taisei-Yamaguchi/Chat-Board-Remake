@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 """
 Django settings for backend project.
 
@@ -37,6 +42,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # new installed
+    # "django.contrib.site",
+    # "allauth",
+    # "allauth.account",
+    'rest_framework',
+    'rest_framework.authtoken',
+    
+    # created apps
+    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [
@@ -47,6 +62,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
+    # new installed
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -75,11 +93,14 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST":'',
+        "PORT":'',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -121,3 +142,64 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'accounts.Account'
+
+CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+# LOGGING Settings
+LOGGING = {
+    'version':1,
+    "disable_existing_loggers":False,
+    
+    # LOGGER
+    'loggers':{
+        # django
+        'django': {
+            'handlers':['console'],
+            'level': 'INFO',
+        },
+        # accounts
+        'accounts': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # snack
+        'snack': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+        # like
+        'like': {
+            'handlers':['console'],
+            'level': 'DEBUG',
+        },
+    },
+    
+    # handlers
+    'handlers': {
+        "console": {
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter':'dev'
+        },
+    },
+    
+    # formatter
+    'formatters':{
+        'dev':{
+            'format': '\t'.join([
+                '%(asctime)s',
+                '[%(levelname)s]',
+                '%(pathname)s(Line:%(lineno)d)',
+                '%(message)s'
+            ])
+        },
+    }
+}
