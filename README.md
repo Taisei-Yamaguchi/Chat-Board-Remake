@@ -26,7 +26,7 @@
    
 ## Wireframes
 >
-  - 
+  - https://www.figma.com/file/xkZ1OrHqYF2tlfMzKi8KRr/Chat-Board-Remake-Wireframe?type=whiteboard&node-id=0-1&t=nRSJq09N8tji1HyQ-0
 ## User Flow Chart
 >
   - 
