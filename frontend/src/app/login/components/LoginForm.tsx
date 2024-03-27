@@ -13,7 +13,6 @@ const formSchema = yup.object().shape({
         .required("username is required!"),
     password: yup
         .string()
-        .min(6, "Password must be at least 6 characters")
         .required("Password is required !"),
     });
 type FormData = {
@@ -148,7 +147,7 @@ const LoginForm = () => {
 									
 					</div>
 						<div className="form-control mt-6">
-						    <button type='submit' className="btn btn-primary">Login</button>
+						    <button type='submit' className="btn btn-ghost">Login</button>
 						</div>
 				</form>
 			</div>
