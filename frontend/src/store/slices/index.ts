@@ -1,0 +1,1 @@
+export { default as loginUserSlice } from './loginUser.slice'
