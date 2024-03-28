@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store'; 
 import { useAppSelector } from '@/store';
 import { useEffect } from 'react';
+import BoardItem from './BoardItem';
 
 const BoardList = () => {
     const searchBoardResult = useSelector((state: RootState) => state.searchBoardResultSlice.searchBoardResult);
@@ -26,9 +27,9 @@ const BoardList = () => {
                 {searchBoardResult &&(
                     <>
                         {searchBoardResult.length > 0 ? (
-                            <ul className='flex flex-col items-center h-full '>
+                            <ul className='flex flex-col items-center h-full m-2'>
                                 {searchBoardResult.map((board, index) => (
-                                    <li key={index}className='text-xl'>{board.title}</li>
+                                    <BoardItem key={index} board={board}/>
                                 ))}
                             </ul>
                         ):(

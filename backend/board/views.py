@@ -22,12 +22,32 @@ class BoardSearch(APIView):
     def get(self, request):
         keyword = request.query_params.get('keyword', None)
         
-        if keyword:
-            boards = Board.objects.filter(title__icontains=keyword)
-        else:
-            boards = Board.objects.all()
-        serializer = BoardSerializer(boards, many=True)
-        return Response(serializer.data)
+        try:
+            if keyword:
+                boards = Board.objects.filter(show=True, title__icontains=keyword)
+            else:
+                boards = Board.objects.filter(show=True)
+            
+            serialized_boards = []
+            for board in boards:
+                serialized_board = {
+                    'id': board.id,
+                    'title': board.title,
+                    'account': board.account.username,
+                    'created_at': board.created_at,
+                }
+                serialized_boards.append(serialized_board)
+
+            return Response({'message': 'Boards retrieved successfully', 'boards': serialized_boards}, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # if keyword:
+        #     boards = Board.objects.filter(title__icontains=keyword)
+        # else:
+        #     boards = Board.objects.all()
+        
+        # return Response(serializer.data)
 
 
 class BoardCreate(APIView):

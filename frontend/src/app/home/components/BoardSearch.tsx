@@ -29,7 +29,7 @@ const BoardSearch = () => {
             const data = await board_search(keyword)
             console.log(data)
             
-            dispatch(setSearchBoardResult(data));
+            dispatch(setSearchBoardResult(data.boards));
             // dispatch(setTotalPages(data.total_pages));
         } catch (error) {
             console.error('Error fetching data:', error);
