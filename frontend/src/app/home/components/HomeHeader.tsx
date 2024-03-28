@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
 import { useAppSelector } from "@/store";
 import { RootState } from "@/store";
-
+import CreateBoard from "./BoardCreate";
 
 const HomeHeader = () => {
 	//* Get login User from cookie
@@ -16,7 +16,7 @@ const HomeHeader = () => {
 	};
 
 	return (
-		<header className="bg-gradient-to-r from-gray-400 to-ghost fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between p-2">
+		<header className="bg-gradient-to-r from-gray-400 to-white fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between p-2">
 			{/* left menu */}
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-base asideOpen">
@@ -24,7 +24,8 @@ const HomeHeader = () => {
 				</button>
 			</div>
 
-			
+			{/* center menu */}
+			<CreateBoard />
 			{/* right menu */}
 			<div>
 			{account ? (
