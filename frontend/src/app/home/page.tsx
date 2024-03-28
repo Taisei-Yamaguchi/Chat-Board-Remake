@@ -1,12 +1,14 @@
 "use client"
 
 import HomeHeader from "./components/HomeHeader";
+import BoardSearch from "./components/BoardSearch";
 import { useEffect,useState } from "react";
 import { useAppDispatch } from "@/store";
 import { setAccount } from "@/store/slices/loginUser.slice";
 import { setToken } from "@/store/slices/loginUser.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import BoardList from "./components/BoardList";
 
 export default function Home() {
 	const dispatch=useAppDispatch()
@@ -36,6 +38,12 @@ export default function Home() {
 		<div className=" h-screen bg-white">
 			<div className="bg-gradient-to-r from-purple-500 to-pink-500 ">
 				<HomeHeader />
+			</div>
+			<div>
+				<BoardSearch/>
+			</div>
+			<div className="">
+				<BoardList/>
 			</div>
 		</div>
 	);
