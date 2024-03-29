@@ -8,6 +8,7 @@ import BoardCommentList from '../components/BoardCommentList';
 import { setAccount } from '@/store/slices/loginUser.slice';
 import { setToken } from '@/store/slices/loginUser.slice';
 import CreateBoardComment from '../components/BoardCommentCreate';
+import BoardHeader from '../components/BoardHeader';
 
 type Props = {
     params:{id:number};
@@ -18,7 +19,7 @@ const BoardPage: FC<Props> = ({ params:{id} }) => {
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account);
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token);
-    const [board,setBoard] = useState<null | {comments:[]}>(null);
+    const [board,setBoard] = useState<null | {id:Number,title:string,account:{id:number,username:string}, comments:[]}>(null);
 
     useEffect(() => {
         const fetchLoginUserFromCookie = async () => {
@@ -70,7 +71,8 @@ const BoardPage: FC<Props> = ({ params:{id} }) => {
         <div className='flex flex-row justify-between border-b p-2 w-full'>
             {board &&(
                 <>
-                    <BoardCommentList comments={board.comments}/>
+                    <BoardHeader boardTitle={board.title}/>
+                    <BoardCommentList boardTitle={board.title} boardAccountId={board.account.id} comments={board.comments}/>
                     <CreateBoardComment board_id={id}/>
                 </>
             )}

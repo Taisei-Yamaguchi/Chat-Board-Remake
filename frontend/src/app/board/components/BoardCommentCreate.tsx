@@ -75,10 +75,9 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
         <div className=" fixed bottom-0 left-0">
         {toast.message && (
 			<div className={
-				clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
+				clsx(`fixed z-50 top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
 				{
-                    "bg-red-500": toast.type === "error",
-                    "bg-green-500": toast.type === "success",
+                    "bg-red-500": toast.type === "error", 
 				}
 				)}>{toast.message}
 			</div>)}
@@ -92,13 +91,8 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
 				onChange={formik.handleChange} 
 			    onBlur={formik.handleBlur}
 				placeholder="Content"
-				className={clsx(
-					"block w-3/4 rounded-md border-0 m-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-					{
-						"border-2 border-red-500 bg-red-100 text-red-800":
-					    formik.touched.content && formik.errors.content,
-					}
-				)}
+				className=
+					"block w-3/4 rounded-md border-0 m-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
 				required
 			></textarea>
 		    <div className="form-control mt-6">

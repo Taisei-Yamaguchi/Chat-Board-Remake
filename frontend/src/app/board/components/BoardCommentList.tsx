@@ -6,10 +6,12 @@ import { useAppDispatch } from '@/store';
 import BoardCommentItem from './BoardCommentItem';
 
 type Props = {
-    comments:{id:number,content:string,created_at:string,account:{id:number,usernmae:string}}[];
+    boardTitle:string;
+    boardAccountId:number;
+    comments:{id:number,content:string,created_at:string,account:{id:number,usernmae:string},reply_to_comment:number|null}[];
 };
 
-const BoardCommentList: FC<Props> = ({ comments }) => {
+const BoardCommentList: FC<Props> = ({boardTitle,boardAccountId, comments }) => {
     const dispatch = useAppDispatch();
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account);
@@ -20,22 +22,14 @@ const BoardCommentList: FC<Props> = ({ comments }) => {
     },[comments])
 
     return (
-        <div className='fixed top-10 left-0 h-[560px] w-full bg-gradient-to-r from-gray-200 to-white z-0  overflow-y-auto'>
-            {reloading  ?(
-                <>
-                    <span className="loading loading-spinner loading-xs"></span>
-                    <span className="loading loading-spinner loading-sm"></span>
-                    <span className="loading loading-spinner loading-md"></span>
-                    <span className="loading loading-spinner loading-lg"></span>
-                </>
-            ):(
-                <>
+        <div className='fixed top-14 left-0 h-[550px] w-full bg-gradient-to-r from-gray-200 to-white z-0  overflow-y-auto'>
+                {boardTitle}
                 {comments &&(
                     <>
                         {comments.length > 0 ? (
                             <ul className='flex flex-col items-center h-full m-2'>
                                 {comments.map((comment, index) => (
-                                    <BoardCommentItem key={index} comment={comment}/>
+                                    <BoardCommentItem key={index} comment={comment} boardAccountId={boardAccountId}/>
                                 ))}
                             </ul>
                         ):(
@@ -45,8 +39,8 @@ const BoardCommentList: FC<Props> = ({ comments }) => {
                         )}
                     </>)
                 }
-                </>
-            )}   
+                
+        
         </div>
     );
 };
