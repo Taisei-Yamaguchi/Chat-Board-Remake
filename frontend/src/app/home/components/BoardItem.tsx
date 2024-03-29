@@ -1,11 +1,11 @@
 "use client"
-import React, { FC } from 'react';
+import React, { FC ,useEffect} from 'react';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
-// import DeleteSnack from './DeleteSnack';
+import BoardDelete from './BoardDelete';
 
 type Props = {
-    board:{id:number,title:string,created_at:string};
+    board:{id:number,title:string,created_at:string,account:{id:number,usernmae:string}};
 };
 
 const BoardItem: FC<Props> = ({ board }) => {
@@ -18,16 +18,30 @@ const BoardItem: FC<Props> = ({ board }) => {
         minute: "2-digit",
         hour12: false,
     });
+
+    useEffect(()=>{
+        console.log(account)
+    },[account])
+
+    useEffect(()=>{
+        console.log(board.account)
+    },[board])
     return (
         
         <li className='flex flex-row justify-between border-b p-2 w-full'>
-            <h2 className="">
+            <a className="link" href={`./board/${board.id}`}>
                 {/* title */}
                 {board.id}. 
                 {board.title}
-            </h2>
+            </a>
 
             <div className='text-xs'>
+                {/* delete action */}
+                {account && board.account && account.id===board.account.id ?(
+                    <BoardDelete board_id={board.id}/>
+                    ):(
+                        <></>
+                    )}
                 {formattedDate}
             </div>
         </li>

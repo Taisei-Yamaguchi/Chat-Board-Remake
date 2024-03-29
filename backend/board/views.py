@@ -1,9 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Board
-from .serializers import BoardSerializer
-from django.http import Http404
+from .models import Board, Comment
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -12,11 +10,40 @@ from rest_framework.exceptions import ValidationError
 class BoardGet(APIView):
     def get(self, request, board_id):
         try:
-            board = Board.objects.get(id=board_id)
-            serializer = BoardSerializer(board)
-            return Response(serializer.data)
-        except Board.DoesNotExist:
-            raise Http404
+            board = Board.objects.filter(show=True).get(id=board_id)
+            print(board)
+            comments = Comment.objects.filter(board=board_id,show=True)
+            
+            serialized_comments=[]
+            for comment in comments:
+                serialized_comment = {
+                    'id': comment.id,
+                    'account': {
+                        "id":comment.account.id,
+                        "username":comment.account.username,
+                    },
+                    'created_at': comment.created_at,
+                    'reply_to_comment': comment.reply_to_comment.id if comment.reply_to_comment else None,
+                    'content':comment.content,
+                }
+                serialized_comments.append(serialized_comment)
+            print(serialized_comments)
+                
+            serialized_board = {
+                "id":board.id,
+                "title":board.title,
+                'account': {
+                        "id":board.account.id,
+                        "username":board.account.username,
+                    },
+                'created_at': board.created_at,
+                'comments':serialized_comments,
+            }
+            
+            return Response({'message': 'Board retrieved successfully', 'board': serialized_board}, status=status.HTTP_200_OK)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class BoardSearch(APIView):
     def get(self, request):
@@ -33,7 +60,10 @@ class BoardSearch(APIView):
                 serialized_board = {
                     'id': board.id,
                     'title': board.title,
-                    'account': board.account.username,
+                    'account': {
+                        "id":board.account.id,
+                        "username":board.account.username,
+                    },
                     'created_at': board.created_at,
                 }
                 serialized_boards.append(serialized_board)
@@ -41,13 +71,6 @@ class BoardSearch(APIView):
             return Response({'message': 'Boards retrieved successfully', 'boards': serialized_boards}, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # if keyword:
-        #     boards = Board.objects.filter(title__icontains=keyword)
-        # else:
-        #     boards = Board.objects.all()
-        
-        # return Response(serializer.data)
 
 
 class BoardCreate(APIView):
@@ -69,24 +92,60 @@ class BoardCreate(APIView):
         except ValidationError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class BoardUpdate(APIView):
+class BoardHide(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def patch(self, request, board_id):
         try:
             board = Board.objects.get(id=board_id)
-            serializer = BoardSerializer(board, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Board.DoesNotExist:
-            raise Http404
-
-class BoardDelete(APIView):
-    def delete(self, request, board_id):
+            return Response({'error': 'Board does not exist' }, status=status.HTTP_404_NOT_FOUND)
+        # Check if the board is associated with the authenticated user
+        if board.account != request.user:
+            return Response({'error': 'Unauthorized'}, status= status.HTTP_401_UNAUTHORIZED)
+        board.show = False
+        board.save()
+        return Response({'message': 'Board hide successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+    
+class CommentCreate(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, board_id):
+        account = request.user
+        content = request.data.get('content')
         try:
             board = Board.objects.get(id=board_id)
-            board.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
         except Board.DoesNotExist:
-            raise Http404
+            return Response({'error': 'Snack does not exist' }, status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            comment = Comment.objects.create(board=board, account=account,content=content)
+            serialized_comment = {
+                'id': comment.id,
+                'content': comment.content,
+                'account': comment.account.username,
+                'board': comment.board.title,
+                'created_at':comment.created_at,
+                'reply_to_comment':comment.reply_to_comment,
+            }
+            return Response({'message': 'Comment created successfully','comment':serialized_comment}, status=status.HTTP_201_CREATED)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentHide(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, comment_id):
+        try:
+            comment = Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            return Response({'error': 'Comment does not exist' }, status=status.HTTP_404_NOT_FOUND)
+        # Check if the board is associated with the authenticated user
+        if comment.account != request.user:
+            return Response({'error': 'Unauthorized'}, status= status.HTTP_401_UNAUTHORIZED)
+        comment.show = False
+        comment.save()
+        return Response({'message': 'Comment hide successfully'}, status=status.HTTP_204_NO_CONTENT)
+    

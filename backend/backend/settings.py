@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # "allauth.account",
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     
     # created apps
     "accounts.apps.AccountsConfig",
@@ -147,6 +148,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'accounts.Account'
 
 CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
+CORS_ALLOW_CREDENTIALS = True  
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
