@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
         const res = NextResponse.json({ success: true, dataAsString }, { status: 200 });
         res.cookies.set("loginId", data.account.id.toString());
         res.cookies.set("loginUsername", data.account.username);
-        res.cookies.set("loginLanguage", data.account.language);
         res.cookies.set("loginToken", data.token);
         return res;
     } catch (error: any) {
@@ -34,11 +33,10 @@ export async function GET(req: NextRequest) {
        // Get user information from cookies
         const loginId = req.cookies.get("loginId")?.value;
         const loginUsername = req.cookies.get("loginUsername")?.value;
-        const loginLanguage = req.cookies.get("loginLanguage")?.value;
         const loginToken = req.cookies.get("loginToken")?.value;
         
         // Check if loginId, loginUsername, and loginToken are defined
-        const account = (loginId && loginUsername) ? { id: loginId, username: loginUsername, language:loginLanguage } : null;
+        const account = (loginId && loginUsername) ? { id: parseInt(loginId), username: loginUsername } : null;
         const token = loginToken || null;
 
         // Reconstruct the loginUser object
