@@ -23,7 +23,7 @@ const BoardHeader:FC<Props> = ({boardTitle}) => {
 			{/* left menu */}
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-base asideOpen">
-                    <a href="/home" className="font-bold text-white">Chat Board</a>
+                    <a href="/home" className="link link-hover font-bold text-white">Chat Board</a>
 				</button>
 			</div>
 

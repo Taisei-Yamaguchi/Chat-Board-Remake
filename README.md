@@ -1,4 +1,7 @@
 # Chat-Board-Remake
+## Remaing todo
+- image
+- pagination
 
 ## Project Ideas
 - **Purpose** :

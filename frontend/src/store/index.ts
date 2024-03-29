@@ -1,15 +1,14 @@
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { loginUserSlice } from './slices';
-import { reloadSlice } from './slices';
-import { searchBoardResultSlice } from './slices';
+import { loginUserSlice,reloadSlice,searchBoardResultSlice,commentReplySlice } from './slices';
 
 export const mainStore = configureStore({
     reducer: {
         loginUserSlice: loginUserSlice,
         reloadSlice: reloadSlice,
         searchBoardResultSlice: searchBoardResultSlice,
+        commentReplySlice: commentReplySlice,
     },
 });
 

@@ -1,6 +1,6 @@
 import { BACKEND_ENDPOINT } from "@/config/envs";
 
-export const commentCreate = async (board_id:number,formData:{content:string},token: string) => {
+export const commentCreate = async (board_id:number,formData:{content:string,reply_to_comment:number|null},token: string) => {
     try{
         const response = await fetch(`${BACKEND_ENDPOINT}/board/comment/create/${board_id}`, {
             method: 'POST',

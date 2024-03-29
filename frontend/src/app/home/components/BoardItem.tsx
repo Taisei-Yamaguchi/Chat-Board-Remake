@@ -3,9 +3,10 @@ import React, { FC ,useEffect} from 'react';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import BoardDelete from './BoardDelete';
+import { Board } from '@/interfaces';
 
 type Props = {
-    board:{id:number,title:string,created_at:string,account:{id:number,usernmae:string}};
+    board:Board;
 };
 
 const BoardItem: FC<Props> = ({ board }) => {
@@ -29,7 +30,7 @@ const BoardItem: FC<Props> = ({ board }) => {
     return (
         
         <li className='flex flex-row justify-between border-b p-2 w-full'>
-            <a className="link" href={`./board/${board.id}`}>
+            <a className="link link-primary" href={`./board/${board.id}`}>
                 {/* title */}
                 {board.id}. 
                 {board.title}

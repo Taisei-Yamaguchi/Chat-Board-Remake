@@ -3,13 +3,17 @@ import React, { FC ,useEffect} from 'react';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import CommentDelete from './BoardCommentDelete';
+import { useAppDispatch } from '@/store';
+import { setCommentReply } from '@/store/slices/commentReply.slice';
+import { Comment } from '@/interfaces';
 
 type Props = {
     boardAccountId:number;
-    comment:{id:number,content:string,created_at:string,account:{id:number,usernmae:string},reply_to_comment:number|null};
+    comment:Comment;
 };
 
 const BoardCommentItem: FC<Props> = ({ comment,boardAccountId }) => {
+    const dispatch = useAppDispatch()
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const formattedDate = new Date(comment.created_at).toLocaleString("ja-JP", {
         year: "numeric",
@@ -28,21 +32,27 @@ const BoardCommentItem: FC<Props> = ({ comment,boardAccountId }) => {
         console.log('account',account)
     },[account])
 
+    const handleSetReply=(comment_id:number)=>{
+        dispatch(setCommentReply(comment_id))
+    }
+
     return (
         
         <li className='flex flex-row justify-between p-1 w-full'>
-            <div className="text-sm flex-col w-full border">
+            <div className="text-sm flex-col w-full border border-slate-300">
                 {/* content */}
                 <div className='flex w-full '>
                     <div className='mx-2'>{comment.id}:</div>
                     <div className='text-xs flex w-1/3 max-sm:w-full justify-between'>
-                        {comment.account.id===boardAccountId ?(
-                            <div className='text-green-600'>うぷ主:</div>
-                        ):
-                            <div className='text-orange-400'>名無しさん(仮):</div>
-                        }
-                        {/* created_at */}
-                        {formattedDate}
+                        <button className='flex link link-hover' onClick={() => handleSetReply(comment.id)}>
+                            {comment.account.id===boardAccountId ?(
+                                <div className='text-green-600'>うぷ主:</div>
+                            ):
+                                <div className='text-orange-400'>名無しさん(仮):</div>
+                            }
+                            {/* created_at */}
+                            {formattedDate}
+                        </button>
                         {/* delete action */}
                         {account && comment.account && account.id===comment.account.id ?(
                             <CommentDelete comment_id={comment.id}/>
