@@ -10,7 +10,7 @@ import { useAppDispatch } from "@/store";
 import { setReloading } from "@/store/slices/reload.slice";
 import { imageCreate } from "@/django_api/create_comment";
 import { IoSend } from "react-icons/io5";
-
+import { FaImage } from "react-icons/fa";
 type Props = {
     board_id:number;
 };
@@ -106,8 +106,8 @@ const ImageCreate:FC<Props> = ({board_id})=>{
 						</div>)}
             {/* Open modal button */}
 			<div className='flex justify-center fixed bottom-32'>
-				<button className="bg-slate-600 p-2 rounded text-white btn btn-xs text-base " type="button" onClick={openModal}>
-					<p>Image</p>
+				<button className="z-50 bg-gray-300 hover:bg-gray-400 text-xs text-black p-2 m-1 rounded  " type="button" onClick={openModal}>
+					<FaImage size={15}/>
 				</button>
 			</div>
 
