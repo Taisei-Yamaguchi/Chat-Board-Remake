@@ -6,8 +6,6 @@ import { useEffect,useState } from "react";
 import { useAppDispatch } from "@/store";
 import { setAccount } from "@/store/slices/loginUser.slice";
 import { setToken } from "@/store/slices/loginUser.slice";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import BoardList from "./components/BoardList";
 
 export default function Home() {

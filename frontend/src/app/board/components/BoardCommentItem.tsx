@@ -24,14 +24,6 @@ const BoardCommentItem: FC<Props> = ({ comment,boardAccountId }) => {
         hour12: false,
     });
 
-    useEffect(()=>{
-        console.log(comment)
-    },[comment])
-
-    useEffect(()=>{
-        console.log('account',account)
-    },[account])
-
     const handleSetReply=(comment_id:number)=>{
         dispatch(setCommentReply(comment_id))
     }

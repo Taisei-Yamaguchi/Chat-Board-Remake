@@ -27,7 +27,6 @@ const BoardSearch = () => {
         try {
             dispatch(setSearchLoad(true))
             const data = await board_search(keyword)
-            console.log(data)
             
             dispatch(setSearchBoardResult(data.boards));
             // dispatch(setTotalPages(data.total_pages));

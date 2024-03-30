@@ -46,7 +46,6 @@ const CreateBoard = ()=>{
 				// Exclude empty url and price
 				if(account&&token){
 					const data = await boardCreate(formData,token)
-                    console.log(data)
 					setIsOpen(false)
 					if (data.error) {
 						setToast({  message: "Failed to create board", type: 'error' });

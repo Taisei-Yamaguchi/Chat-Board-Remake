@@ -7,3 +7,5 @@
   - django-cors-headers
   - python-dotenv
   - cloudinary
+  - channels
+  - uvicorn
