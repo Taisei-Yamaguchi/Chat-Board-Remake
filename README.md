@@ -13,19 +13,12 @@
      - Users can login.
      - Users can logout. (require auth)
      - Users can signup.
-     - Users can delete theis account.
    - Topic
-     - Create New Topic. (require auth)
-     - Close Topic. (require auth)
-     - Resume Topic. (require auth)
+     - Create New Board. (require auth)
+     - Close Board. (require auth)
      - Posting comment 
      - Posting Images (require auth)
      - Delete comment. (require auth)
-     - If users select Anonimyty, other users can't judge who post.
-        - Even after stopping anonimyty, all posts you added in anonimyty mode will be kept anonimyty.
-   - Communicate individually. (require auth)
-      - Depend on id or username
-      - Block users.
    
 ## Wireframes
 >
@@ -36,13 +29,7 @@
 ## ERD
 >
   - [erd](https://app.diagrams.net/index.html#G14UM1JdXT2Utk39zA5tue4OApDgfYXSJ8#%7B%22pageId%22%3A%22psvvZqwR41q0-1H5zmYz%22%7D)
-  - ![Chat-Board-Remake drawio](https://github.com/Taisei-Yamaguchi/Chat-Board-Remake/assets/119865966/72751c7d-9cfb-4d7f-b2d5-d351fd80f205)
-
-
-## User Flow Chart
->
-  - 
-
+  - ![Chat-Board-Remake drawio](https://github.com/Taisei-Yamaguchi/Chat-Board-Remake/assets/119865966/8b7af0de-c3d7-4475-bfa1-19b939203be3)
 
 ## Tech Choices
 >
