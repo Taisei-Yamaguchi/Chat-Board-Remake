@@ -9,6 +9,7 @@ import { setAccount } from '@/store/slices/loginUser.slice';
 import { setToken } from '@/store/slices/loginUser.slice';
 import CreateBoardComment from '../components/BoardCommentCreate';
 import BoardHeader from '../components/BoardHeader';
+import ImageCreate from '../components/ImageCreate';
 
 type Props = {
     params:{id:number};
@@ -73,6 +74,7 @@ const BoardPage: FC<Props> = ({ params:{id} }) => {
                 <>
                     <BoardHeader boardTitle={board.title}/>
                     <BoardCommentList boardTitle={board.title} boardAccountId={board.account.id} comments={board.comments}/>
+                    <ImageCreate board_id={id}/>
                     <CreateBoardComment board_id={id}/>
                 </>
             )}

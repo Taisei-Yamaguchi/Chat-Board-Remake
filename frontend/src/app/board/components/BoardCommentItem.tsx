@@ -64,7 +64,12 @@ const BoardCommentItem: FC<Props> = ({ comment,boardAccountId }) => {
                 {comment.reply_to_comment && (
                     <div>{`＞＞`}{comment.reply_to_comment}</div>
                 )}
-                <div>{comment.content}</div>
+                {comment.image_url&&(
+                    <img src={comment.image_url} className='h-40'/>
+                )}
+                {comment.content&&(
+                    <div>{comment.content}</div>
+                )}
             </div>
 
             

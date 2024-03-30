@@ -6,3 +6,4 @@
   - djangorestframework
   - django-cors-headers
   - python-dotenv
+  - cloudinary

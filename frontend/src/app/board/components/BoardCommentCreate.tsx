@@ -91,7 +91,7 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
 				)}>{toast.message}
 			</div>)}
         
-            <form className="fixed bottom-0 left-0 flex-col m-2 w-full h-32" onSubmit={formik.handleSubmit} >
+            <form className="fixed bottom-0 left-0 flex-col m-2 w-full h-28" onSubmit={formik.handleSubmit} >
                 {commentReply&&(
                     <div className="text-sm flex ">
                     <div className="mx-4">{`＞＞${commentReply}`}</div>
@@ -106,7 +106,7 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
                         value={formik.values.content} 
                         onChange={formik.handleChange} 
                         onBlur={formik.handleBlur}
-                        placeholder="Content"
+                        placeholder="Comment"
                         className=
                             "block w-3/4 rounded-md border-0 m-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2"
                         required

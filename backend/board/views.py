@@ -1,17 +1,17 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Board, Comment,Image
+from .models import Board, Comment
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
+from .helpers.cloudinary import upload_cloudinary
 
 class BoardGet(APIView):
     def get(self, request, board_id):
         try:
             board = Board.objects.filter(show=True).get(id=board_id)
-            print(board)
             comments = Comment.objects.filter(board=board_id,show=True)
             
             serialized_comments=[]
@@ -24,10 +24,10 @@ class BoardGet(APIView):
                     },
                     'created_at': comment.created_at,
                     'reply_to_comment': comment.reply_to_comment.id if comment.reply_to_comment else None,
-                    'content':comment.content,
+                    'content': comment.content,
+                    'image_url': comment.image_url,
                 }
                 serialized_comments.append(serialized_comment)
-            print(serialized_comments)
                 
             serialized_board = {
                 "id":board.id,
@@ -141,6 +141,38 @@ class CommentCreate(APIView):
         except ValidationError as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+class ImageCreate(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request, board_id):
+        account = request.user
+        image_file = request.FILES.get('image', None)
+        
+        try:
+            board = Board.objects.get(id=board_id)
+        except Board.DoesNotExist:
+            return Response({'error': 'Board does not exist' }, status=status.HTTP_404_NOT_FOUND)
+        
+        # upload image and get 'url', Cloudinary
+        if image_file:
+            image_url = upload_cloudinary(image_file)
+        else:
+            return Response({'error': "Image is necessary"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            comment = Comment.objects.create(board=board, account=account,image_url=image_url)
+            serialized_comment = {
+                'id': comment.id,
+                'content':comment.content,
+                "image_url":comment.image_url,
+                'account': comment.account.username,
+                'board': comment.board.title,
+                'reply_to_comment': comment.reply_to_comment.id if comment.reply_to_comment else None,
+            }
+            return Response({'message': 'Comment created successfully','comment':serialized_comment}, status=status.HTTP_201_CREATED)
+        except ValidationError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CommentHide(APIView):
     authentication_classes = [TokenAuthentication]
@@ -156,53 +188,3 @@ class CommentHide(APIView):
         comment.show = False
         comment.save()
         return Response({'message': 'Comment hide successfully'}, status=status.HTTP_204_NO_CONTENT)
-
-
-class ImageCreate(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    def post(self, request, board_id):
-        account = request.user
-        content = request.data.get('content')
-        reply_to_comment_id = request.data.get('reply_to_comment',None)
-        try:
-            board = Board.objects.get(id=board_id)
-        except Board.DoesNotExist:
-            return Response({'error': 'Board does not exist' }, status=status.HTTP_404_NOT_FOUND)
-        
-        reply_to_comment=None
-        if(reply_to_comment_id):
-            try:
-                reply_to_comment = Comment.objects.get(id=reply_to_comment_id)
-            except Comment.DoesNotExist:
-                return Response({'error': 'Comment does not exist' }, status=status.HTTP_404_NOT_FOUND)
-            
-        try:
-            comment = Comment.objects.create(board=board, account=account,content=content,reply_to_comment=reply_to_comment)
-            serialized_comment = {
-                'id': comment.id,
-                'content': comment.content,
-                'account': comment.account.username,
-                'board': comment.board.title,
-                'reply_to_comment': comment.reply_to_comment.id if comment.reply_to_comment else None,
-            }
-            return Response({'message': 'Comment created successfully','comment':serialized_comment}, status=status.HTTP_201_CREATED)
-        except ValidationError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ImageHide(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    def patch(self, request, comment_id):
-        try:
-            comment = Comment.objects.get(id=comment_id)
-        except Comment.DoesNotExist:
-            return Response({'error': 'Comment does not exist' }, status=status.HTTP_404_NOT_FOUND)
-        # Check if the board is associated with the authenticated user
-        if comment.account != request.user:
-            return Response({'error': 'Unauthorized'}, status= status.HTTP_401_UNAUTHORIZED)
-        comment.show = False
-        comment.save()
-        return Response({'message': 'Comment hide successfully'}, status=status.HTTP_204_NO_CONTENT)
-    

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'cloudinary',
     
     # created apps
     "accounts.apps.AccountsConfig",
@@ -156,6 +157,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# CLUDINARY
+CLOUDINARY_URL=os.getenv("CLOUDINARY_URL")
 
 # LOGGING Settings
 LOGGING = {
