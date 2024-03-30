@@ -16,6 +16,7 @@ ALLOWED_HOSTS = [
     'api-futures.kucoin.com',
     "https://chat.taiseiyama.com",
     "http://chat.taiseiyama.com",
+    "chat.taiseiyama.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
