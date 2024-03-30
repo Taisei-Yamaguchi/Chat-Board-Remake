@@ -13,9 +13,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [
-    os.getenv("ALLOWED_HOSTS"),
     'api-futures.kucoin.com',
     "https://chat.taiseiyama.com",
+    "http://chat.taiseiyama.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
