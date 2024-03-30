@@ -9,10 +9,7 @@ const BoardList = () => {
     const searchBoardResult = useSelector((state: RootState) => state.searchBoardResultSlice.searchBoardResult);
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const searchLoad = useAppSelector((state: RootState) => state.reloadSlice.searchLoad);
-
-    useEffect(()=>{
-        console.log(searchBoardResult)
-    },[searchBoardResult])
+    
     return (
         <div className='fixed top-40 left-0 h-[500px] w-full bg-gradient-to-r from-gray-200 to-white z-0  overflow-y-auto'>
             {reloading || searchLoad ?(

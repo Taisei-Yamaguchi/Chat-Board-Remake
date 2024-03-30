@@ -21,7 +21,7 @@ const BoardPage: FC<Props> = ({ params:{id} }) => {
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account);
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token);
     const [board,setBoard] = useState<null | {id:Number,title:string,account:{id:number,username:string}, comments:[]}>(null);
-
+    
     useEffect(() => {
         const fetchLoginUserFromCookie = async () => {
             try {
@@ -47,16 +47,12 @@ const BoardPage: FC<Props> = ({ params:{id} }) => {
         fetchData();
     }, [account,token,reloading]);
 
-    useEffect(()=>{
-        console.log('account',account)
-    },[account])
 
     const fetchData = async () => {
         // API request
         try {
             // dispatch(setSearchLoad(true))
             const data = await get_board_detail(id)
-            console.log(data)
             setBoard(data.board)
             
             // dispatch(setTotalPages(data.total_pages));

@@ -20,13 +20,6 @@ const BoardItem: FC<Props> = ({ board }) => {
         hour12: false,
     });
 
-    useEffect(()=>{
-        console.log(account)
-    },[account])
-
-    useEffect(()=>{
-        console.log(board.account)
-    },[board])
     return (
         
         <li className='flex flex-row justify-between border-b p-2 w-full'>

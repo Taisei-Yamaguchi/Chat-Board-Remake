@@ -13,8 +13,6 @@ class Board(models.Model):
     def __str__(self):
         return self.title
 
-
-
 class Comment(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
