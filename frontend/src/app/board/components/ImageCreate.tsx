@@ -105,7 +105,7 @@ const ImageCreate:FC<Props> = ({board_id})=>{
 						)}>{toast.message}
 						</div>)}
             {/* Open modal button */}
-			<div className='flex justify-center fixed bottom-32'>
+			<div className='flex justify-center fixed bottom-24'>
 				<button className="z-50 bg-gray-300 hover:bg-gray-400 text-xs text-black p-2 m-1 rounded  " type="button" onClick={openModal}>
 					<FaImage size={15}/>
 				</button>

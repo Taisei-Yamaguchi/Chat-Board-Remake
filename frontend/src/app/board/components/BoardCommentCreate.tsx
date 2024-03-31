@@ -81,7 +81,7 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
 
 
     return(
-        <div className=" fixed bottom-0 left-0 ">
+        <div className=" fixed bottom-0 left-0 border">
         {toast.message && (
 			<div className={
 				clsx(`fixed z-50 top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
@@ -91,7 +91,7 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
 				)}>{toast.message}
 			</div>)}
         
-            <form className="fixed bottom-0 left-0 flex-col m-2 w-4/5 h-28 " onSubmit={formik.handleSubmit} >
+            <form className="fixed bottom-0 left-0 flex-col m-0 w-3/4 h-24 " onSubmit={formik.handleSubmit} >
                 {commentReply&&(
                     <div className="text-sm flex ">
                     <div className="mx-4">{`＞＞${commentReply}`}</div>
@@ -112,8 +112,8 @@ const CreateBoardComment: FC<Props> = ({board_id})=>{
                         required
                     ></textarea>
                     <div className="form-control mt-6">
-                        <button type="submit" className="btn btn-ghost">
-                            <IoSend size={30}/>
+                        <button type="submit" className="btn btn-xs btn-ghost">
+                            <IoSend size={20}/>
                         </button>
                     </div>
                 </div>
